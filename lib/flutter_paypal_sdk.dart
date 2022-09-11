@@ -6,7 +6,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_paypal_sdk/src/constants/constants.dart';
 import 'package:flutter_paypal_sdk/src/paypal_services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_paypal_sdk/src/screens/network_error.dart';
+import 'package:flutter_paypal_sdk/src/widget/loading_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'src/constants/sizes.dart';
@@ -195,14 +196,18 @@ class _PayWithPaypalState extends State<PayWithPaypal> {
           ),
           actions: [
             SizedBox(width: pageloading ? s.w1 : 0),
-            pageloading
-                ? SpinKitFadingCube(
-                    color: const Color(0xFFEB920D),
-                    size: s.w2,
-                  )
-                : const SizedBox()
+            pageloading ? LoadingWidget(s: s) : const SizedBox()
           ],
         ),
+        body: Expanded(
+            child: loading
+                ? LoadingWidget(s: s)
+                : loadingError
+                    ? Expanded(
+                        child: NetworkErrorScr(
+                            loadData: loadPayment,
+                            message: "Something went wrong,"))
+                    : Column()),
       ),
     );
   }

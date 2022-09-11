@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../constants/sizes.dart';
 import '../paypal_services.dart';
+import '../widget/loading_widget.dart';
 import 'network_error.dart';
 
 class PaymentSuccess extends StatefulWidget {
@@ -83,14 +83,9 @@ class _PaymentSuccessState extends State<PaymentSuccess> {
   Widget build(BuildContext context) {
     Sizes s = Sizes(context);
     return Scaffold(
-      body: Container(
+      body: Expanded(
         child: loading
-            ? Center(
-                child: SpinKitFadingCircle(
-                  size: s.h10,
-                  color: const Color(0xFFEB920D),
-                ),
-              )
+            ? LoadingWidget(s: s)
             : loadingError
                 ? NetworkErrorScr(
                     loadData: complete, message: "Something went wrong,")
