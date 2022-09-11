@@ -1,6 +1,7 @@
 library flutter_paypal_sdk;
 
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_paypal_sdk/src/widget/loading_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'src/constants/sizes.dart';
+import 'src/screens/payment_success.dart';
 
 class PayWithPaypal extends StatefulWidget {
   final Function onSuccess, onCancel, onError;
@@ -200,15 +202,66 @@ class _PayWithPaypalState extends State<PayWithPaypal> {
           ],
         ),
         body: Expanded(
-            child: loading
-                ? LoadingWidget(s: s)
-                : loadingError
-                    ? Expanded(
-                        child: NetworkErrorScr(
-                            loadData: loadPayment,
-                            message: "Something went wrong,"))
-                    : Column()),
+          child: loading
+              ? LoadingWidget(s: s)
+              : loadingError
+                  ? NetworkErrorScr(
+                      loadData: loadPayment, message: "Something went wrong,")
+                  : WebView(
+                      initialUrl: checkoutUrl,
+                      javascriptMode: JavascriptMode.unrestricted,
+                      gestureNavigationEnabled: true,
+                      onWebViewCreated: (WebViewController webViewController) {
+                        _controller.complete(webViewController);
+                      },
+                      javascriptChannels: <JavascriptChannel>{
+                        _toasterJavascriptChannel(context),
+                      },
+                      navigationDelegate: (NavigationRequest request) async {
+                        if (!Uri.parse(request.url).isAbsolute) {
+                          return NavigationDecision.prevent;
+                        }
+                        if (request.url.contains(widget.returnURL)) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PaymentSuccess(
+                                    url: request.url,
+                                    services: services,
+                                    executeUrl: executeUrl,
+                                    accessToken: accessToken,
+                                    onSuccess: widget.onSuccess,
+                                    onCancel: widget.onCancel,
+                                    onError: widget.onError)),
+                          );
+                        }
+                        if (request.url.contains(widget.cancelURL)) {
+                          final uri = Uri.parse(request.url);
+                          await widget.onCancel(uri.queryParameters);
+                          _popScreen();
+                        }
+                        return NavigationDecision.navigate;
+                      },
+                      onPageStarted: (String url) {
+                        setState(() {
+                          pageloading = true;
+                          loadingError = false;
+                        });
+                      },
+                      onPageFinished: (String url) {
+                        log(url);
+                        setState(() {
+                          navUrl = url;
+                          pageloading = false;
+                        });
+                      },
+                    ),
+        ),
       ),
     );
+  }
+
+  void _popScreen() {
+    Navigator.of(context).pop();
   }
 }
