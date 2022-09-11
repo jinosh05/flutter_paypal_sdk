@@ -10,6 +10,8 @@ class Sizes {
     width = screenSize.width;
   }
 
+  late double h10 = height * 0.10;
+
   late double h20 = height * 0.20;
 
   late double h2 = height * 0.02;

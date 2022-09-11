@@ -11,10 +11,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Material App',
       home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Material App Bar'),
-          ),
-          body: NetworkErrorScr(loadData: () {}, message: "Load")),
+        appBar: AppBar(
+          title: const Text('Material App Bar'),
+        ),
+        body: NetworkErrorScr(loadData: () {}, message: "Load"),
+      ),
     );
   }
 }
