@@ -15,7 +15,7 @@ class LoadingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SpinKitFadingCircle(
-        size: s.h10,
+        size: s.h2,
         color: const Color(0xFFEB920D),
       ),
     );

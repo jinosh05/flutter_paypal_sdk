@@ -1,3 +1,5 @@
+import 'package:flutter/painting.dart';
+
 class Constants {
   static const String noNetPng = 'assets/no_network.png';
 
@@ -9,4 +11,6 @@ class Constants {
       "/v1/oauth2/token?grant_type=client_credentials";
 
   static const String createPaymentBase = "/v1/payments/payment";
+
+  static const Color paypalBlue = Color(0xff253B80);
 }

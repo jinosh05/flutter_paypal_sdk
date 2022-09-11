@@ -165,13 +165,17 @@ class _PayWithPaypalState extends State<PayWithPaypal> {
           backgroundColor: Colors.white,
           elevation: 0,
           leading: GestureDetector(
-            child: const Icon(Icons.close),
+            child: const Icon(
+              Icons.close,
+              color: Constants.paypalBlue,
+            ),
             onTap: () => Navigator.pop(context),
           ),
+          leadingWidth: s.w3,
           title: Container(
             padding: EdgeInsets.symmetric(horizontal: s.w2, vertical: s.h1),
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.3),
+              color: Colors.black.withOpacity(0.4),
               borderRadius: BorderRadius.circular(
                 s.h2,
               ),
@@ -181,8 +185,9 @@ class _PayWithPaypalState extends State<PayWithPaypal> {
               children: [
                 Icon(
                   Icons.lock_outline,
-                  color:
-                      Uri.parse(navUrl).hasScheme ? Colors.green : Colors.blue,
+                  color: Uri.parse(navUrl).hasScheme
+                      ? Colors.green.shade100
+                      : Colors.blue,
                   size: s.h2,
                 ),
                 SizedBox(width: s.w1),
@@ -190,7 +195,9 @@ class _PayWithPaypalState extends State<PayWithPaypal> {
                   child: Text(
                     navUrl,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: s.h2),
+                    style: TextStyle(
+                      fontSize: s.h2,
+                    ),
                   ),
                 ),
               ],
@@ -201,7 +208,9 @@ class _PayWithPaypalState extends State<PayWithPaypal> {
             pageloading ? LoadingWidget(s: s) : const SizedBox()
           ],
         ),
-        body: Expanded(
+        body: SizedBox(
+          width: s.width,
+          height: s.height,
           child: loading
               ? LoadingWidget(s: s)
               : loadingError
