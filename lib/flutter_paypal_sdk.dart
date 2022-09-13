@@ -180,8 +180,7 @@ class _PayWithPaypalState extends State<PayWithPaypal> {
                 s.h2,
               ),
             ),
-            child: Expanded(
-                child: Row(
+            child: Row(
               children: [
                 Icon(
                   Icons.lock_outline,
@@ -201,11 +200,11 @@ class _PayWithPaypalState extends State<PayWithPaypal> {
                   ),
                 ),
               ],
-            )),
+            ),
           ),
           actions: [
-            SizedBox(width: pageloading ? s.w1 : 0),
-            pageloading ? LoadingWidget(s: s) : const SizedBox()
+            SizedBox(width: pageloading ? s.w1 / 2 : 0),
+            pageloading ? LoadingWidget(s: s) : const SizedBox.shrink()
           ],
         ),
         body: SizedBox(

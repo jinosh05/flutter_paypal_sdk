@@ -83,7 +83,9 @@ class _PaymentSuccessState extends State<PaymentSuccess> {
   Widget build(BuildContext context) {
     Sizes s = Sizes(context);
     return Scaffold(
-      body: Expanded(
+      body: Container(
+        width: s.width,
+        height: s.height,
         child: loading
             ? LoadingWidget(s: s)
             : loadingError
