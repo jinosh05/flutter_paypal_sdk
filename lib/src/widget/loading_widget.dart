@@ -7,15 +7,17 @@ class LoadingWidget extends StatelessWidget {
   const LoadingWidget({
     Key? key,
     required this.s,
+    this.radius,
   }) : super(key: key);
 
   final Sizes s;
+  final double? radius;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: SpinKitFadingCircle(
-        size: s.h2,
+        size: radius ?? s.h2,
         color: const Color(0xFFEB920D),
       ),
     );
