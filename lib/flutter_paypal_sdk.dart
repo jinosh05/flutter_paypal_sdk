@@ -18,10 +18,37 @@ import 'src/constants/sizes.dart';
 import 'src/models/transaction_model.dart';
 import 'src/screens/payment_success.dart';
 
+///
+/// PayWithPaypal is a Widget used to generate accessToken
+/// and payment URL using [PaypalService] class.
+/// The URL is then Processed in WebView for making the transaction
+/// and the success and Failure cases are handled both in
+/// Paypal WebView and Flutter Widget Part
+///
+/// ******* Note : *******
+/// This API was tested in mobile and won't work in Emulator
+/// Test in your device and review for making improvements
 class PayWithPaypal extends StatefulWidget {
+  /// Functions to be executed on respective stages of Process
   final Function onSuccess, onCancel, onError;
-  final String returnURL, cancelURL, note, clientId, secretKey;
+
+  /// Retuern and Cancel URL are used for redirection and Navigation
+  final String returnURL, cancelURL;
+
+  /// Note is just a text to be displayed on transaction Page
+  final String note;
+
+  /// clientId and secretKey are found in admin panel of Paypal
+  final String clientId, secretKey;
+
+  /// Currently tested only 1 Transaction
+  /// will be updated in future
+  /// [TransactionModel] a model class created to make the payment
+  /// Use it's subclasses too to make it much more easier and
+  /// don't forget to use required fields
   final List<TransactionModel> transactions;
+
+  /// Pass true to make transaction in testing env
   final bool sandboxMode;
   const PayWithPaypal(
       {super.key,
@@ -53,6 +80,7 @@ class _PayWithPaypalState extends State<PayWithPaypal> {
   late PaypalServices services;
   int pressed = 0;
 
+  /// creates the json to be transferred to Webview
   Map getOrderParams() {
     List<TransactionModel> transaction = widget.transactions;
     String transactionString = "[";
@@ -84,10 +112,14 @@ class _PayWithPaypalState extends State<PayWithPaypal> {
       loading = true;
     });
     try {
+      /// Getting Access token for processing
       Map getToken = await services.getAccessToken();
       if (getToken['token'] != null) {
         accessToken = getToken['token'];
         final transactions = getOrderParams();
+
+        /// Creates Payment Details at Paypal server
+        /// refer [PaypalServices] for more info
         final res =
             await services.createPaypalPayment(transactions, accessToken);
         if (res["approvalUrl"] != null) {
@@ -126,6 +158,7 @@ class _PayWithPaypalState extends State<PayWithPaypal> {
     }
   }
 
+  /// Just a JavaScript channel to show toast message
   JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
     return JavascriptChannel(
         name: 'Toaster',
@@ -161,6 +194,7 @@ class _PayWithPaypalState extends State<PayWithPaypal> {
     Sizes s = Sizes(context);
     return WillPopScope(
       onWillPop: () async {
+        /// Will Pop only on Pressing the Back button thrice
         if (pressed < 2) {
           setState(() {
             pressed++;
