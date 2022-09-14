@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'flutter_paypal_sdk.dart';
-import 'src/models/transaction_model.dart';
+import 'package:flutter_paypal_sdk/flutter_paypal_sdk.dart';
 
 void main() {
   runApp(const MyApp());
@@ -55,46 +53,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             returnURL: "https://samplesite.com/return",
                             cancelURL: "https://samplesite.com/cancel",
                             transactions: [
-                              // {
-                              //   "amount": {
-                              //     "total": "2.00",
-                              //     "currency": "USD",
-                              //     "details": {
-                              //       "subtotal": "2.00",
-                              //       "shipping": "1",
-                              //       "shipping_discount": "1"
-                              //     }
-                              //   },
-                              //   "description":
-                              //       "The payment transaction description.",
-                              //   "payment_options": {
-                              //     "allowed_payment_method":
-                              //         "INSTANT_FUNDING_SOURCE"
-                              //   },
-                              //   "item_list": {
-                              //     "items": [
-                              //       {
-                              //         "name": "Chocolate Cake",
-                              //         "quantity": 1,
-                              //         "price": 1.00,
-                              //         "currency": "USD"
-                              //       },
-                              //       {
-                              //         "name": "Chocolate Bun",
-                              //         "quantity": 1,
-                              //         "price": 1.00,
-                              //         "currency": "USD"
-                              //       }
-                              //     ],
-                              //     "shipping_address": {
-                              //       "recipient_name": "Jane Foster",
-                              //       "line1": "Travis County",
-                              //       "line2": "",
-                              //       "city": "Dubai",
-                              //       "country_code": "AE"
-                              //     },
-                              //   }
-                              // },
                               TransactionModel(
                                 amount: TransactionAmount(
                                   total: 50.00,
@@ -131,42 +89,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                 ),
                               ),
-                              // {
-                              //   "amount": {
-                              //     "total": '1',
-                              //     "currency": "USD",
-                              //     "details": {
-                              //       "subtotal": '1',
-                              //       "shipping": '0',
-                              //       "shipping_discount": 0
-                              //     }
-                              //   },
-                              //   "description":
-                              //       "The payment transaction description.",
-                              //   "payment_options": {
-                              //     "allowed_payment_method":
-                              //         "INSTANT_FUNDING_SOURCE"
-                              //   },
-                              //   "item_list": {
-                              //     "items": [
-                              //       {
-                              //         "name": "A demo product",
-                              //         "quantity": 1,
-                              //         "price": '1',
-                              //         "currency": "USD"
-                              //       }
-                              //     ],
-                              //     "shipping_address": {
-                              //       "recipient_name": "Jane Foster",
-                              //       "line1": "Travis County",
-                              //       "line2": "",
-                              //       "city": "Austin",
-                              //       "country_code": "UAE",
-                              //       "phone": "+00000000",
-                              //       "state": "Texas"
-                              //     },
-                              //   }
-                              // }
                             ],
                             note: "Contact us for any questions on your order.",
                             onSuccess: (Map params) async {

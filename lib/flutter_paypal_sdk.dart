@@ -1,5 +1,7 @@
 library flutter_paypal_sdk;
 
+export 'src/models/transaction_model.dart';
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
